@@ -195,6 +195,8 @@ def process_file(path: Path, canonical: list[str], aliases: dict[str, str]) -> p
             "source_file": path.name,
             "state": state,
             "total_terpenes": total,
+            "total_thc": parse_number(row.get("total_thc")) if "total_thc" in df.columns else None,
+            "total_cbd": parse_number(row.get("total_cbd")) if "total_cbd" in df.columns else None,
         }
         for key in canonical:
             out[key] = vector.get(key)
@@ -295,6 +297,8 @@ def main() -> None:
         "date_tested",
         "source_file",
         "total_terpenes",
+        "total_thc",
+        "total_cbd",
     ]
     df = df[id_cols + canonical]
     df["terpene_sum"] = df[canonical].sum(axis=1, skipna=True)
